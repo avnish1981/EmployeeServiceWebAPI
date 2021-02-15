@@ -22,12 +22,12 @@
                         grant_type: 'password'
                     },
                     success: function (response) {
-                        $('divErrorText').text(JSON.stringify(response));
-                        $('divError').show('fade');
+                        $('#divErrorText').text(JSON.stringify(response));
+                        $('#divError').show('fade');
                     },
                     error: function (jXHR) {
-                        $('divErrorText').text(jXHR.responseText);
-                        $('divError').show('fade');
+                        $('#divErrorText').text(jXHR.responseText);
+                        $('#divError').show('fade');
                     }
 
                 });

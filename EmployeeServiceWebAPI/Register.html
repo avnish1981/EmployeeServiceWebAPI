@@ -24,9 +24,9 @@
                     success: function () {
                         $('#successModal').modal('show');
                     },
-                    error: function (jXHR) {
-                        $('divErrorText').text(jXHR.responseText);
-                        $('divError').show('fade');
+                    error: function (jqXHR) {
+                        $('#divErrorText').text(jqXHR.responseText);
+                        $('#divError').show('fade');
                     }
                    
                 });
