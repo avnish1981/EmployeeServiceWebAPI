@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+    
 <head>
     <meta charset="utf-8" />
     <title></title>
@@ -11,24 +11,25 @@
             $('#lnkclosed').click(function () {
                 $('divErrorText').hide('fade');
             });
-            $('#btn').click(function () {
+            $('#btnLogin').click(function () {
                 $.ajax({
-                    url: '/api/account/register',
+                    url: '/token',
                     method: 'POST',
+                    conte: 'application/json',
                     data: {
-                        email: $('#txtEmail').val(),
+                        username: $('#txtUserName').val(),
                         password: $('#txtpwd').val(),
-                        confirmPassword: $('#txtconfirmpwd').val()  
-
+                        grant_type: 'password'
                     },
-                    success: function () {
-                        $('#successModal').modal('show');
+                    success: function (response) {
+                        $('divErrorText').text(JSON.stringify(response));
+                        $('divError').show('fade');
                     },
                     error: function (jXHR) {
                         $('divErrorText').text(jXHR.responseText);
                         $('divError').show('fade');
                     }
-                   
+
                 });
 
             });
@@ -43,50 +44,27 @@
                 <thead>
                     <tr class="success ">
                         <td colspan="2">
-                            New User Registration
+                            Existing User Login
+                            <a class="btn btn-success pull-right " href="Register.html">Register</a>
                         </td>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Email</td>
-                        <td><input type="text" id="txtEmail" placeholder="Email" /></td>
+                        <td>UserName</td>
+                        <td><input type="text" id="txtUserName" placeholder="userame" /></td>
                     </tr>
                     <tr>
                         <td>Password</td>
                         <td><input type="password" id="txtpwd" placeholder="password" /></td>
                     </tr>
-                    <tr>
-                        <td>ConfirmPassword</td>
-                        <td><input type="password" id="txtconfirmpwd" placeholder="ConfirmPassword" /></td>
-                    </tr>
+
                     <tr class="success ">
 
-                        <td colspan="2"><input type="button" id="btn" value="Register" class="btn btn-success " /></td>
+                        <td colspan="2"><input type="button" id="btnLogin" value="Login" class="btn btn-success " /></td>
                     </tr>
                 </tbody>
             </table>
-            <div class="modal fade " tabindex="-1" id="successModal" data-keyboard="false" data-backdrop="static">
-                <div class="modal-dialog modal-sm ">
-                    <div class="modal-content">
-                        <div class="modal-header ">
-                            <button type="button" class="close " data-dismiss="modal">
-                                &times;
-                            </button>
-                            <h4>Success</h4>
-                        </div>
-                        <div class="modal-body">
-                            <h2>Registration Successful!</h2>
-                        </div>
-                        <div class="modal-footer ">
-                            <button type="button" data-dismiss="modal" class="btn btn-success">
-                                close
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
             <div id="divError" class="alert alert-danger collapse ">
                 <a id="lnkclosed" class="close" href="#">&times;  </a>
                 <div id="divErrorText">
@@ -97,8 +75,7 @@
         </div>
     </div>
 
-        
-        
    
+
+
 </body>
-</html>
