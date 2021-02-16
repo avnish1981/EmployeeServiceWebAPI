@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="Scripts/bootstrap.min.js"></script>
+    <script src="Scripts/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" >
+        if(sessionStorage.getItem('accessToken') == null){
+                    window.location.href = 'Login.html';
+                }
+                
+        $(document).ready(function () {
+            $('#lnkclosed').click(function () {
+                $('divErrorText').hide('fade');
+            });
+            //this code automatically redirect to login.html page as session expiry in 30 second.
+            $('#errorModal').on('hidden.bs.model', function () {
+                window.location.href = 'Login.html';
+
+            });
+            $('#btnLogout').click(function () {
+                sessionStorage.removeItem('accessToken');
+                window.location.href = 'Login.html';
+            });
+            $('#btnLoadEmployee').click(function () {
+                $.ajax({
+                    url: '/api/employee',
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('accessToken') //we are passing Token is Authorization header 
+                    },
+                    success: function (data) {
+                        $('#divData').removeClass('hidden');
+                        $('#tblbody').empty();
+                        $.each(data,function(index, value){
+                            var row = $('<tr><td>' + value.ID + '</td><td>'
+                                + value.FirstName + '</td><td>'
+                                + value.LastName + '</td><td>'
+                                + value.Gender + '</td><td>'
+                                + value.Salary + '</td></tr>');
+                            $('#tbldata').append(row);
+                        });
+
+                    },
+                    error: function (jXHR) {
+                        $('#divErrorText').text(jXHR.responseText);
+                        $('#divError').show('fade');
+                    }
+
+                });
+
+            });
+        });
+    </script>
+</head>
+
+<body style="padding-top:20px">
+    <div class="col-md-10 col-md-offset-1 ">
+
+        <div class="well ">
+            <input type="button" id="btnLoadEmployee" class="btn btn-success" value="LoadEmployee" />
+            <input type="button" id="btnLogout" class="btn btn-success pull-right " value="Logout" />
+
+        </div>
+        <div class="well hidden " id="divData">
+            <table class="table table-bordered " id="tbldata">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>FirstName</th>
+                        <th>LastName</th>
+                        <th>Gender</th>
+                        <th>Salary</th>
+                    </tr>
+                </thead>
+                <tbody id="tblbody"></tbody>
+            </table>
+
+        </div>
+        <div class="modal fade " tabindex="-1" id="errorModal" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog modal-sm ">
+                <div class="modal-content">
+                    <div class="modal-header ">
+                        <button type="button" class="close " data-dismiss="modal">
+                            &times;
+                        </button>
+                        <h4 class="modal-title ">Session Expiry</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <h2 class="modal-title ">please close this message to try again</h2>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer ">
+                        <button type="button" data-dismiss="modal" class="btn btn-success">
+                            close
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="divError" class="alert alert-danger collapse ">
+            <a id="lnkclosed" class="close" href="#">&times;  </a>
+            <div id="divErrorText">
+
+            </div>
+
+        </div>
+    </div>
+    
+
+
+
+
+</body>
+</html>

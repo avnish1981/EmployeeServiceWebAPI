@@ -12,7 +12,7 @@ namespace EmployeeServiceWebAPI.Controllers
     {
         [HttpGet]
         [Authorize]
-        public HttpResponseMessage Employees()
+        public HttpResponseMessage Employee()
         {
             try
             {

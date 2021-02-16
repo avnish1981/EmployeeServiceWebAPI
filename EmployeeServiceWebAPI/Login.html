@@ -15,15 +15,17 @@
                 $.ajax({
                     url: '/token',
                     method: 'POST',
-                    conte: 'application/json',
+                    contentType: 'application/json',
                     data: {
                         username: $('#txtUserName').val(),
                         password: $('#txtpwd').val(),
                         grant_type: 'password'
                     },
                     success: function (response) {
-                        $('#divErrorText').text(JSON.stringify(response));
-                        $('#divError').show('fade');
+                        //$('#divErrorText').text(JSON.stringify(response));
+                        //$('#divError').show('fade');
+                        sessionStorage.setItem('accessToken', response.access_token);
+                        window.location.href = "data.html";
                     },
                     error: function (jXHR) {
                         $('#divErrorText').text(jXHR.responseText);
