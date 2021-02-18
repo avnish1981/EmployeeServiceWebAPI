@@ -7,7 +7,8 @@
     <script src="Scripts/bootstrap.min.js"></script>
     <script src="Scripts/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" >
-        if(sessionStorage.getItem('accessToken') == null){
+        /* if(sessionStorage.getItem('accessToken') == null)*/
+        if (localStorage.getItem('accessToken') == null){
                     window.location.href = 'Login.html';
                 }
                 
@@ -15,21 +16,26 @@
             $('#lnkclosed').click(function () {
                 $('divErrorText').hide('fade');
             });
+            $('#spanUsername').text('Hello ' + localStorage.getItem('username'));
             //this code automatically redirect to login.html page as session expiry in 30 second.
             $('#errorModal').on('hidden.bs.model', function () {
                 window.location.href = 'Login.html';
 
             });
             $('#btnLogout').click(function () {
-                sessionStorage.removeItem('accessToken');
+               // sessionStorage.removeItem('accessToken'); this will remove token from browser session
+                localStorage.removeItem('accessToken'); // ths will remove token from local system
                 window.location.href = 'Login.html';
             });
             $('#btnLoadEmployee').click(function () {
                 $.ajax({
                     url: '/api/employee',
                     method: 'GET',
+                    //headers: {
+                    //    'Authorization': 'Bearer ' + sessionStorage.getItem('accessToken') //we are passing Token is Authorization header 
+                    //},
                     headers: {
-                        'Authorization': 'Bearer ' + sessionStorage.getItem('accessToken') //we are passing Token is Authorization header 
+                        'Authorization': 'Bearer ' + localStorage.getItem('accessToken') //we are passing Token is Authorization header 
                     },
                     success: function (data) {
                         $('#divData').removeClass('hidden');
@@ -61,6 +67,7 @@
 
         <div class="well ">
             <input type="button" id="btnLoadEmployee" class="btn btn-success" value="LoadEmployee" />
+            <span id="spanUsername" class="text-muted "></span>
             <input type="button" id="btnLogout" class="btn btn-success pull-right " value="Logout" />
 
         </div>

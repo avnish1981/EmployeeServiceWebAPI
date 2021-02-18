@@ -1,33 +1,31 @@
-﻿using System;
+﻿using EmpDataAccess.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using EmpDataAccess.Model;
 
 namespace EmployeeServiceWebAPI.Controllers
 {
-    public class EmployeeController : ApiController
+    public class UserController : ApiController
     {
         [HttpGet]
         [Authorize]
-        public HttpResponseMessage Employee()
+        public HttpResponseMessage Users()
         {
             try
             {
                 using (EmpDBConnection entities = new EmpDBConnection())
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, entities.Employees.ToList());
+                    return Request.CreateResponse(HttpStatusCode.OK, entities.Users.ToList());
                 }
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message );
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
-            
         }
-        
     }
 }
