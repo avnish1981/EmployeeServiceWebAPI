@@ -6,15 +6,20 @@
     <link href="Content/bootstrap-theme.min.css" rel="stylesheet" />
     <script src="Scripts/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" >
+
+        if (localStorage.getItem('accessToken') == null) {
+            window.location.href = 'Login.html';
+        }
         $(document).ready(function () {
+            $('#idspan').text('Hello ' + localStorage.getItem('username'));
             $('#btnLoad').click(function () {
 
                 $.ajax({
-                    method: 'GET',
                     url: '/api/user',
-                    header: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-                    }, 
+                    method: 'GET',
+                    //headers: {
+                    //    'Authorization': 'Bearer ' + localStorage.getItem('accessToken') //we are passing Token is Authorization header 
+                    //}, 
                     success: function (data) {
                         $('#tbldata').removeClass('hidden');
                         $('#tblbody').empty();
@@ -24,7 +29,7 @@
                                 + value.password + '</td></tr>');
                             $('#tblUser').append(row);
 
-                        })
+                        });
 
                     }
 
@@ -39,9 +44,10 @@
 <body>
     <div style="padding-top:20px">
         <input type="button" id="btnLoad" class="btn btn-success" value="LoadReport" />
+        <span id="idspan" class="text-muted" ></span>
     </div>
-    <div id="tbldata" class="well hidden" >
-        <table class="table table-bordered" id="tblUser">
+    <div id="tbldata" class="well hidden " >
+        <table class="table table-bordered " id="tblUser">
             <thead>
                 <tr>
                     <td>Id</td>

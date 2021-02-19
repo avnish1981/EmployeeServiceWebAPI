@@ -8,7 +8,7 @@ using System.Web.Http;
 
 namespace EmployeeServiceWebAPI.Controllers
 {
-    [RoutePrefix("api/student")]
+   [RoutePrefix("api/student")]
     public class StudentController : ApiController
     {
         public List<Student> students = new List<Student>()
@@ -23,10 +23,15 @@ namespace EmployeeServiceWebAPI.Controllers
         {
             return students.ToList();
         }
-        [Route("{id}")]
+        [Route("{id:int:max(102)}")]
          public Student GetStudentById(int id)
         {
             return students.FirstOrDefault(a => a.id == id);
+        }
+        [Route("{name:alpha}")]
+        public Student GetStudentByName(string  name)
+        {
+            return students.FirstOrDefault(a => a.Name.ToLower()  == name.ToLower());
         }
         [Route("{id}/course")]
         public IEnumerable<string> GetCourseName (int id)
@@ -44,5 +49,15 @@ namespace EmployeeServiceWebAPI.Controllers
                 return new List<string>() { "Bootstrip", "CSS", "Angular" };
             }
         }
+        [Route("")]
+        public HttpResponseMessage Post([FromBody ] Student student )
+        {
+            students.Add(student);
+            var response = Request.CreateResponse(HttpStatusCode.Created, students);
+            response.Headers.Location = new Uri(Request.RequestUri + student.id.ToString());
+            return response;
+
+        }
+       
     }
 }

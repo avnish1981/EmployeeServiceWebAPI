@@ -11,7 +11,7 @@ namespace EmployeeServiceWebAPI.Controllers
     public class UserController : ApiController
     {
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public HttpResponseMessage Users()
         {
             try
