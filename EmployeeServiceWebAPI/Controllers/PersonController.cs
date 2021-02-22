@@ -25,7 +25,7 @@ namespace EmployeeServiceWebAPI.Controllers
         {
             return Ok(obj);
         }
-        [Route("{id:int}")]
+        [Route("{id:int}",Name ="GetPersonID")]
         public IHttpActionResult GetPersonByID(int id)
         {
             var person = obj.FirstOrDefault(a => a.id == id);
@@ -35,21 +35,23 @@ namespace EmployeeServiceWebAPI.Controllers
             }
             return Ok(person);
         }
-        //[Route("{name:alpha}")]
-        //public Person GetPersonByName(string name)
-        //{
-        //    var person = obj.FirstOrDefault(a => a.name.ToLower() == name.ToLower());
-        //    if (person == null)
-        //    {
-        //        return Request.CreateResponse(HttpStatusCode.NotFound());
-        //    }
-        //    return Ok(person);
-        //}
+        [Route("{name:alpha}")]
+        public IHttpActionResult  GetPersonByName(string name)
+        {
+            var person = obj.FirstOrDefault(a => a.name.ToLower() == name.ToLower());
+            if (person == null)
+            {
+                return Content(HttpStatusCode.NotFound, "person not found");
+            }
+            return Ok(person);
+        }
         [Route("")]
-        public IHttpActionResult Post([FromBody ]Person person )
+        public HttpResponseMessage  Post([FromBody ]Person person )
         {
             obj.Add(person);
-            return Content(HttpStatusCode.Created, obj);
+            var response = Request.CreateResponse(HttpStatusCode.Created);
+            response.Headers.Location = new Uri(Url.Link("GetPersonID", new { id = person.id }));
+            return response;
         }
 
 

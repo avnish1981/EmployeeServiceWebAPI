@@ -25,6 +25,18 @@ namespace EmployeeServiceWebAPI
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+         /*   config.Routes.MapHttpRoute(
+                name: "StudentV1Api",
+                routeTemplate: "api/v1/students/{id}",
+                defaults: new { id = RouteParameter.Optional,controller = "StudentV1" }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "StudentV2Api",
+                routeTemplate: "api/v2/students/{id}",
+                defaults: new { id = RouteParameter.Optional, controller = "StudentV2" }
+            ); */
         }
     }
 }
