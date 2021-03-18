@@ -27,6 +27,10 @@
                 localStorage.removeItem('accessToken'); // ths will remove token from local system
                 window.location.href = 'Login.html';
             });
+            $('#btnLoadPerson').click(function () {
+                window.location.href = '/api/person';
+
+            });
             $('#btnLoadEmployee').click(function () {
                 $.ajax({
                     url: '/api/employee',
@@ -67,6 +71,7 @@
 
         <div class="well ">
             <input type="button" id="btnLoadEmployee" class="btn btn-success" value="LoadEmployee" />
+            <input type="button" id="btnLoadPerson" class="btn btn-success" value="LoadPerson" />
             <span id="spanUsername" class="text-muted "></span>
             <input type="button" id="btnLogout" class="btn btn-success pull-right " value="Logout" />
 
